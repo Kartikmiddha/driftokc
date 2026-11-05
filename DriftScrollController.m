@@ -54,39 +54,60 @@ static NSArray<UIView *> *getDockIconViews(UIView *listView) {
 }
 
 - (void)updateLayout {
-    if (!self.dockListView || !self.dockView) return;
-    
-    NSArray<UIView *> *icons = getDockIconViews(self.dockListView);
-    NSUInteger count = icons.count;
-    if (count == 0) return;
-    
-    DriftManager *manager = [DriftManager sharedManager];
-    self.itemSpacing = manager.itemSpacing;
-    
-    UIView *first = icons.firstObject;
-    if (first && first.frame.size.width > 0) {
-        self.iconWidth = first.frame.size.width;
+    @try {
+        if (!self.dockListView || !self.dockView) return;
+        
+        static BOOL isUpdating = NO;
+        if (isUpdating) return;
+        isUpdating = YES;
+        
+        NSArray<UIView *> *icons = getDockIconViews(self.dockListView);
+        NSUInteger count = icons.count;
+        if (count == 0) {
+            isUpdating = NO;
+            return;
+        }
+        
+        DriftManager *manager = [DriftManager sharedManager];
+        self.itemSpacing = manager.itemSpacing;
+        
+        UIView *first = icons.firstObject;
+        if (first && first.frame.size.width > 0) {
+            self.iconWidth = first.frame.size.width;
+        }
+        
+        CGFloat dockWidth = self.dockView.bounds.size.width;
+        CGFloat dockHeight = self.dockView.bounds.size.height;
+        CGFloat padding = 15.0;
+        
+        // Calculate total content width for all dock icons
+        CGFloat totalWidth = padding * 2.0 + (count * self.iconWidth) + ((count - 1) * self.itemSpacing);
+        self.maxOffset = MAX(0.0, totalWidth - dockWidth);
+        
+        // Only override icon layout when icons exceed dock width
+        if (totalWidth > dockWidth || count > 4) {
+            CGFloat currentX = padding;
+            for (UIView *iconView in icons) {
+                CGRect f = iconView.frame;
+                f.origin.x = currentX;
+                f.origin.y = (dockHeight - f.size.height) / 2.0;
+                iconView.frame = f;
+                currentX += self.iconWidth + self.itemSpacing;
+            }
+            [self setScrollOffset:MIN(self.currentOffset, self.maxOffset)];
+        } else {
+            // Under standard 4 icons, reset bounds
+            CGRect b = self.dockListView.bounds;
+            if (b.origin.x != 0) {
+                b.origin.x = 0;
+                self.dockListView.bounds = b;
+            }
+        }
+        
+        isUpdating = NO;
+    } @catch (NSException *e) {
+        NSLog(@"[DriftDock] Error in updateLayout: %@", e);
     }
-    
-    CGFloat dockWidth = self.dockView.bounds.size.width;
-    CGFloat dockHeight = self.dockView.bounds.size.height;
-    CGFloat padding = 15.0;
-    
-    // Calculate total content width for all dock icons
-    CGFloat totalWidth = padding * 2.0 + (count * self.iconWidth) + ((count - 1) * self.itemSpacing);
-    self.maxOffset = MAX(0.0, totalWidth - dockWidth);
-    
-    // Reposition all dock icons into a single smooth horizontal row
-    CGFloat currentX = padding;
-    for (UIView *iconView in icons) {
-        CGRect f = iconView.frame;
-        f.origin.x = currentX;
-        f.origin.y = (dockHeight - f.size.height) / 2.0;
-        iconView.frame = f;
-        currentX += self.iconWidth + self.itemSpacing;
-    }
-    
-    [self setScrollOffset:MIN(self.currentOffset, self.maxOffset)];
 }
 
 - (void)setScrollOffset:(CGFloat)offset {
@@ -153,7 +174,7 @@ static NSArray<UIView *> *getDockIconViews(UIView *listView) {
     DriftManager *manager = [DriftManager sharedManager];
     NSArray<UIView *> *icons = getDockIconViews(self.dockListView);
     
-    if (!manager.edgeEffectsEnabled) {
+    if (!manager.edgeEffectsEnabled || self.maxOffset <= 0) {
         for (UIView *icon in icons) {
             icon.transform = CGAffineTransformIdentity;
             icon.alpha = 1.0;
