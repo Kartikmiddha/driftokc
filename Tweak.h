@@ -38,39 +38,26 @@ typedef struct SBIconCoordinate {
 - (BOOL)isDock;
 @end
 
+@interface SBIconListGridLayoutConfiguration : NSObject
+@property (nonatomic, assign) NSUInteger numberOfPortraitRows;
+@property (nonatomic, assign) NSUInteger numberOfPortraitColumns;
+@property (nonatomic, assign) NSUInteger numberOfLandscapeRows;
+@property (nonatomic, assign) NSUInteger numberOfLandscapeColumns;
+@end
+
 @interface SBIconListView : UIView
 @property (nonatomic, strong, readonly) SBIconListModel *model;
-@property (nonatomic, readonly) NSArray *displayedIconViews;
-@property (nonatomic, readonly) NSUInteger iconRowsForCurrentOrientation;
-@property (nonatomic, readonly) NSUInteger iconColumnsForCurrentOrientation;
-- (NSUInteger)maximumIconCount;
-+ (NSUInteger)maxIcons;
-- (NSUInteger)maxIcons;
 - (BOOL)isFull;
 - (BOOL)allowsAddingIconCount:(NSUInteger)count;
 - (void)layoutIconsNow;
-- (CGPoint)originForIconAtCoordinate:(SBIconCoordinate)coordinate numberOfIcons:(NSUInteger)count;
-- (CGPoint)centerForIcon:(SBIcon *)icon;
-- (SBIconView *)displayedIconViewForIcon:(SBIcon *)icon;
 @end
 
 @interface SBDockIconListView : SBIconListView
-+ (NSUInteger)maxIcons;
-- (NSUInteger)maxIcons;
-- (NSUInteger)maximumIconCount;
-- (NSUInteger)iconColumnsForCurrentOrientation;
-- (NSUInteger)iconRowsForCurrentOrientation;
-- (BOOL)allowsAddingIconCount:(NSUInteger)count;
-- (BOOL)isFull;
 @end
 
 @interface SBDockView : UIView
-@property (nonatomic, strong) SBDockIconListView *dockIconListView;
 @property (nonatomic, strong) UIView *backgroundView;
-- (SBDockIconListView *)dockIconListView;
+- (UIView *)dockIconListView;
 - (UIView *)backgroundView;
 - (void)layoutSubviews;
-@end
-
-@interface SBFloatingDockPlatterView : UIView
 @end

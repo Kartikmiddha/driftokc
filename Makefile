@@ -8,7 +8,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = DriftDock
 
-DriftDock_FILES = Tweak.x DriftScrollView.m DriftManager.m
+DriftDock_FILES = Tweak.x DriftScrollController.m DriftManager.m
 DriftDock_CFLAGS = -fobjc-arc -Wno-unused-variable -Wno-deprecated-declarations
 DriftDock_FRAMEWORKS = UIKit CoreGraphics QuartzCore AudioToolbox
 DriftDock_LDFLAGS = -undefined dynamic_lookup
