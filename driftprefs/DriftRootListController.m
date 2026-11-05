@@ -1,5 +1,7 @@
 #import "DriftRootListController.h"
+#if __has_include(<Preferences/PSSpecifier.h>)
 #import <Preferences/PSSpecifier.h>
+#endif
 #import <spawn.h>
 
 @implementation DriftRootListController

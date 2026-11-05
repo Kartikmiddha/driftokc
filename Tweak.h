@@ -35,6 +35,7 @@ typedef struct SBIconCoordinate {
 @property (nonatomic, copy, readonly) NSArray *icons;
 - (BOOL)isFull;
 - (NSUInteger)maxNumberOfIcons;
+- (BOOL)isDock;
 @end
 
 @interface SBIconListView : UIView

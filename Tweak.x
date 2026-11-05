@@ -150,8 +150,12 @@ static char kDriftScrollViewKey;
     // Only expand icon limit when model is attached to the dock
     if ([DriftManager sharedManager].enabled) {
         BOOL isDockModel = NO;
-        if ([self respondsToSelector:@selector(isDock)]) {
-            isDockModel = [((id)self) isDock];
+        SEL isDockSel = NSSelectorFromString(@"isDock");
+        if ([self respondsToSelector:isDockSel]) {
+            BOOL (*isDockFunc)(id, SEL) = (BOOL (*)(id, SEL))[self methodForSelector:isDockSel];
+            if (isDockFunc) {
+                isDockModel = isDockFunc(self, isDockSel);
+            }
         }
         if (isDockModel) {
             return [DriftManager sharedManager].maxIcons;
