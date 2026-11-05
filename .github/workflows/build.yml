@@ -28,10 +28,18 @@ jobs:
           path: theos
           submodules: recursive
 
-      - name: Download iOS SDKs
+      - name: Download iOS SDK (Fast Sparse Checkout)
         run: |
-          rm -rf $THEOS/sdks
-          git clone --depth=1 https://github.com/theos/sdks.git $THEOS/sdks
+          mkdir -p $THEOS/sdks
+          mkdir -p temp_sdks && cd temp_sdks
+          git init
+          git remote add origin https://github.com/theos/sdks.git
+          git config core.sparseCheckout true
+          echo "iPhoneOS16.5.sdk" >> .git/info/sparse-checkout
+          git pull --depth=1 origin master
+          mv iPhoneOS16.5.sdk $THEOS/sdks/
+          cd ..
+          rm -rf temp_sdks
 
       - name: Build Rootless Package (.deb)
         run: |
