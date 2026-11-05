@@ -1,4 +1,4 @@
-TARGET := iphone:clang:latest:14.0
+TARGET := iphone:clang:16.5:14.0
 THEOS_PACKAGE_SCHEME ?= rootless
 ARCHS = arm64 arm64e
 
@@ -8,7 +8,7 @@ BUNDLE_NAME = driftprefs
 
 driftprefs_FILES = DriftRootListController.m
 driftprefs_FRAMEWORKS = UIKit
-driftprefs_PRIVATE_FRAMEWORKS = Preferences
+driftprefs_LDFLAGS = -undefined dynamic_lookup
 driftprefs_CFLAGS = -fobjc-arc -Wno-deprecated-declarations
 
 include $(THEOS_MAKE_PATH)/bundle.mk
