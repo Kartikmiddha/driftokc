@@ -1,0 +1,10 @@
+Package: com.kartik.driftdock
+Name: DriftDock
+Depends: mobilesubstrate, preferenceloader
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Infinite scrolling iOS dock tweak with snap physics, edge effects, and haptics - inspired by Drift.
+Maintainer: Kartik
+Author: Kartik
+Section: Tweaks
+Tag: role::developer

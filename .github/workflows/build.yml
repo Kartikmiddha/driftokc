@@ -1,0 +1,44 @@
+name: Build DriftDock
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Theos
+        uses: actions/checkout@v4
+        with:
+          repository: theos/theos
+          path: theos
+          submodules: recursive
+
+      - name: Download iOS SDKs
+        run: |
+          git clone --depth=1 https://github.com/theos/sdks.git theos/sdks
+
+      - name: Build Rootless Package (.deb)
+        run: |
+          export THEOS=$GITHUB_WORKSPACE/theos
+          make clean
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+
+      - name: Build Rootful Package (.deb)
+        run: |
+          export THEOS=$GITHUB_WORKSPACE/theos
+          make package FINALPACKAGE=1
+
+      - name: Upload Compiled .deb Packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: DriftDock-Deb-Packages
+          path: packages/*.deb

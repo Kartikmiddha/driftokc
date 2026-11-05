@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>headerCellClass</key>
+            <string>HBPackageNameHeaderCell</string>
+            <key>title</key>
+            <string>DriftDock</string>
+            <key>footerText</key>
+            <string>Drift allows you to place unlimited apps into your dock with smooth scrolling, edge effects, and physics.</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <true/>
+            <key>defaults</key>
+            <string>com.kartik.driftdock</string>
+            <key>key</key>
+            <string>enabled</string>
+            <key>label</key>
+            <string>Enable DriftDock</string>
+            <key>PostNotification</key>
+            <string>com.kartik.driftdock.prefschanged</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Dock Capacity</string>
+            <key>footerText</key>
+            <string>Set the maximum number of apps you can place in the dock.</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSliderCell</string>
+            <key>default</key>
+            <integer>50</integer>
+            <key>defaults</key>
+            <string>com.kartik.driftdock</string>
+            <key>key</key>
+            <string>maxIcons</string>
+            <key>min</key>
+            <integer>4</integer>
+            <key>max</key>
+            <integer>60</integer>
+            <key>showValue</key>
+            <true/>
+            <key>isSegmented</key>
+            <true/>
+            <key>segmentCount</key>
+            <integer>56</integer>
+            <key>PostNotification</key>
+            <string>com.kartik.driftdock.prefschanged</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Physics &amp; Haptics</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <true/>
+            <key>defaults</key>
+            <string>com.kartik.driftdock</string>
+            <key>key</key>
+            <string>snapEnabled</string>
+            <key>label</key>
+            <string>Snap to Nearest Icon</string>
+            <key>PostNotification</key>
+            <string>com.kartik.driftdock.prefschanged</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <true/>
+            <key>defaults</key>
+            <string>com.kartik.driftdock</string>
+            <key>key</key>
+            <string>hapticsEnabled</string>
+            <key>label</key>
+            <string>Haptic Feedback on Scroll</string>
+            <key>PostNotification</key>
+            <string>com.kartik.driftdock.prefschanged</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Edge Effects</string>
+            <key>footerText</key>
+            <string>Fade and shrink icons smoothly as they slide past the dock edges.</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <true/>
+            <key>defaults</key>
+            <string>com.kartik.driftdock</string>
+            <key>key</key>
+            <string>edgeEffectsEnabled</string>
+            <key>label</key>
+            <string>Edge Fade &amp; Shrink</string>
+            <key>PostNotification</key>
+            <string>com.kartik.driftdock.prefschanged</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Actions</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSButtonCell</string>
+            <key>label</key>
+            <string>Respring SpringBoard</string>
+            <key>action</key>
+            <string>respring</string>
+        </dict>
+    </array>
+    <key>title</key>
+    <string>DriftDock</string>
+</dict>
+</plist>
