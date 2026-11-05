@@ -17,6 +17,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install Build Dependencies (ldid & dpkg)
+        run: |
+          brew install ldid dpkg
+
       - name: Setup Theos
         uses: actions/checkout@v4
         with:
@@ -33,14 +37,17 @@ jobs:
         run: |
           make clean
           make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mkdir -p output_packages
+          cp packages/*.deb output_packages/
 
       - name: Build Rootful Package (.deb)
         run: |
           make clean
           make package FINALPACKAGE=1
+          cp packages/*.deb output_packages/
 
       - name: Upload Compiled .deb Packages
         uses: actions/upload-artifact@v4
         with:
           name: DriftDock-Deb-Packages
-          path: packages/*.deb
+          path: output_packages/*.deb
