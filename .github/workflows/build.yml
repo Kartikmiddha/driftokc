@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: macos-14
+    env:
+      THEOS: ${{ github.workspace }}/theos
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -24,17 +26,17 @@ jobs:
 
       - name: Download iOS SDKs
         run: |
-          git clone --depth=1 https://github.com/theos/sdks.git theos/sdks
+          rm -rf $THEOS/sdks
+          git clone --depth=1 https://github.com/theos/sdks.git $THEOS/sdks
 
       - name: Build Rootless Package (.deb)
         run: |
-          export THEOS=$GITHUB_WORKSPACE/theos
           make clean
           make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 
       - name: Build Rootful Package (.deb)
         run: |
-          export THEOS=$GITHUB_WORKSPACE/theos
+          make clean
           make package FINALPACKAGE=1
 
       - name: Upload Compiled .deb Packages
